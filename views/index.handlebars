@@ -1,13 +1,26 @@
+<div id='dashboard'></div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/chartd3.js"></script>
+
 <div class="container">
   <h2>Delphi Data</h2>
-  <p>Smoking in adults by age from 1984-Present:</p>            
+  <p>Smoking in adults by age from 1984-Present:</p>
+  <form id="custom-zip">
+    <input type="text" placeholder="Enter a Zip Code" class="target" />
+    <input type="submit" value="View Data" />
+  </form>
+  <form id="ready">
+    <input type="submit" value="View D3 array" />
+  </form>        
   <table class="table table-hover">
     <thead>
-      <tr>
-        <th>Year</th>
-        <th>Gender</th>
-        <th>Percentage</th>
-        <th>Respondents</th>
+      <tr class="dataDisplay">
+        <th>Agency</th>
+        <th>Charge Description</th>
+        <th>Activity Date</th>
+        <th>Block Address</th>
+        <th>Zip</th>
+        <th>Community</th>
       </tr>
     </thead>
     <tbody id="delphi-table">
