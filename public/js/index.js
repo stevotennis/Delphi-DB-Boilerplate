@@ -32,31 +32,60 @@ var DelphiDemo = DelphiDemo || (function() {
    */
   self.init = function() {
     //self.getDelphiData();
-    cnt = 0;
   };
 
   self.setQ = function(){
     console.log("Getting new Query from here for D3");
-    $.get("/delphidata", delphiZip && {zipcode: delphiZip}, function(data) {
+    $.get("/getQuery", delphiZip && {zipcode: delphiZip}, function(data) {
       console.log(delphiZip);
       var rows = $.map(data, function (item, i) {
         var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
+        //tmp.charge = item.charge_description;
         tmp.charge = item.charge_description;
         tmp.total = item.num;
-        if(distQ.length < 10)
+        tmp.freq.yr1 = item.num;
+        tmp.freq.yr2 = item.num -1;
+        //tmp.freq.yr2 = 0;
+        //if(arr.length < 10)
           distQ.push(tmp);
-        //console.log(distQ[distQ.length-1].charge);
-        //console.log(distQ[distQ.length-1].freq.yr1);
       }).join("");
-      //$("#delphi-table").append(rows);
-      //console.log(arr);
-      for(var i = 0; i < distQ.length; i++){
-        //console.log("The element in distQ @ index (" + i + ") is " + distQ[i].charge + "that happened a total of (" + distQ[i].total + ") times.\n");
-      }
-      //console.log(distQ.length);
     });
-    return distQ;
   };
+
+  self.set2013 = function(){
+    console.log("Getting new data for 2013");
+    $.get("/getQuery/2013", delphiZip && {zipcode: delphiZip}, function(data) {
+      console.log(delphiZip);
+      var ind = 0;
+      var rows = $.map(data, function (item, i) {
+        //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
+        //tmp.charge = item.charge_description;
+        for(var i = 0; i < distQ.length; i++){
+          if(item.charge_description == distQ[i].charge){
+            console.log("The charge from the query is " + item.charge_description + " and the charge from the distQ is " + distQ[i].charge);
+            distQ[i].freq.yr1 = item.yr1;
+            distQ[i].freq.yr2 = distQ[i].total - item.yr1;        
+            console.log("The number of " + distQ[i].charge + " is " + distQ[i].freq.yr1);
+          }
+        }
+      }).join("");
+    });
+  };
+
+  // self.set2014 = function(){
+  //   console.log("Getting new data for 2014");
+  //   $.get("/getQuery/2014", delphiZip && {zipcode: delphiZip}, function(data) {
+  //     console.log(delphiZip);
+  //     var ind = 0;
+  //     var rows = $.map(data, function (item, i) {
+  //       //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
+  //       //tmp.charge = item.charge_description;
+  //       distQ[ind].freq.yr1 = item.yr2;
+  //       console.log("The number of " + distQ[ind].charge + " is " + distQ[ind].freq.yr2);
+  //       ind++;
+  //     }).join("");
+  //   });
+  // };
 
   // Use user input to render new stuff
   self.getNewData = function(zip){
@@ -76,13 +105,13 @@ var DelphiDemo = DelphiDemo || (function() {
       var rows = $.map(data, function (item, i) {
         var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         //tmp.charge = item.charge_description;
-        tmp.charge = item.charge_description.split(' ')[0];
+        tmp.charge = item.charge_description;
         tmp.total = item.num;
-        tmp.freq.yr1 = item.num;
-        tmp.freq.yr2 = item.num -15;
+        //tmp.freq.yr1 = item.num;
+        //tmp.freq.yr2 = item.num -1;
         //tmp.freq.yr2 = 0;
-        if(arr.length < 10)
-          arr.push(tmp);
+        //if(arr.length < 10)
+        arr.push(tmp);
         // console.log(tmp.charge);
         // console.log(tmp.freq);
         //console.log(arr[arr.length-1].charge);
@@ -106,9 +135,11 @@ var DelphiDemo = DelphiDemo || (function() {
     return arr;
   }
 
-  self.printDistQ = function(){
-    console.log("hello");
-    console.log(distQ.length);
+  self.getQQ = function(){
+    return distQ;
+  }
+
+  self.printQQ = function(){
     for(var i = 0; i < distQ.length; i++){
         console.log("The element in distQ @ index (" + i + ") is " + distQ[i].charge + "that happened a total of (" + distQ[i].total + ") times.\n");
         //console.log("The element @ index (" + i + ") is " + arr[i] + ".\n");
@@ -129,6 +160,8 @@ $(document).ready(function() {
     if(!isNaN(parseFloat(value)) && isFinite(value)) {
       console.log(value);
       DelphiDemo.getNewData(value);
+      DelphiDemo.setQ();
+      DelphiDemo.set2013();
     }
     evt.preventDefault();
   });

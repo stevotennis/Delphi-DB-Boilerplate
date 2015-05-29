@@ -38,7 +38,7 @@ app.get('/', function(req, res){
 
 app.get('/delphidata', function (req, res) {
     // test variable
-    var active = 2;
+    var active = 1;
 
     // initialize connection pool 
     if(active == 0){
@@ -97,45 +97,6 @@ app.get('/delphidata', function (req, res) {
       });
     }
     if(active == 2){
-      // pg.connect(conString, function(err, client, done) {
-      //   var handleError = function(err, res) {
-      //     // no error occurred, continue with the request
-      //     if(!err) return false;
-      //     else console.log(err);
-
-      //     // An error occurred, remove the client from the connection pool.
-      //     // A truthy value passed to done will remove the connection from the pool
-      //     // instead of simply returning it to be reused.
-      //     // In this case, if we have successfully received a client (truthy)
-      //     // then it will be removed from the pool.
-      //     done(client);
-      //     res.writeHead("500", {'content-type': 'text/plain'});
-      //     res.end('An error occurred');
-      //     return true;
-      //   };    
-
-      //   var args = [];
-      //   //var query = "select 'charge_description' count(*) from 'arjis_crimes'";
-      //   var query = "select * from 'arjis_crimes'";
-      //   //console.log(query);
-      //   // filter by zip code if available, otherwise return all data'
-      //   if(req.query.zipcode) {
-      //     //query += " WHERE zip='" + req.query.zipcode + "' group by 'charge_description' order by count(*) desc";
-      //     query += " WHERE zip='" + req.query.zipcode + "'";
-      //     //args.push(req.query.zipcode);
-      //     console.log("############ " + query);
-      //   }
-      //   //console.log(query);
-      //   client.query(query, args, function(err, result) {
-      //     if(handleError(err, res)) return;
-
-      //     // return the client to the connection pool for other requests to reuse
-      //     done();
-
-      //     res.writeHead("200", {'content-type': 'application/json'});
-      //     res.end(JSON.stringify(result.rows));
-      //   });
-      // });
         pg.connect(conString, function(err, client, done) {
         var handleError = function(err, res) {
           // no error occurred, continue with the request
@@ -159,7 +120,7 @@ app.get('/delphidata', function (req, res) {
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
         if(req.query.zipcode) {
-          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc";
+          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
           //query += " WHERE zip='" + req.query.zipcode + "'";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
@@ -178,9 +139,9 @@ app.get('/delphidata', function (req, res) {
     }
   });
 
-app.get('/delphidata/getQuery', function (req, res) {
+app.get('/getQuery', function (req, res) {
     //allows for users' input
-      pg.connect(conString, function(err, client, done) {
+    pg.connect(conString, function(err, client, done) {
         var handleError = function(err, res) {
           // no error occurred, continue with the request
           if(!err) return false;
@@ -198,12 +159,101 @@ app.get('/delphidata/getQuery', function (req, res) {
         };    
 
         var args = [];
-        //var query = "select  'charge_description', count(*) as 'num' from 'arjis_crimes'";
-        var query = "select * from 'arjis_crimes' where zip='91950'";
+        var query = "select charge_description, count(*) as num from arjis_crimes";
+        //var query = "select * from arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
         if(req.query.zipcode) {
-          query += " WHERE zip='" + req.query.zipcode + "' group by 'charge_description' order by count(*) desc";
+          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
+          //query += " WHERE zip='" + req.query.zipcode + "'";
+          //args.push(req.query.zipcode);
+          console.log("############ " + query);
+        }
+        console.log(query);
+        client.query(query, args, function(err, result) {
+          if(handleError(err, res)) return;
+
+          // return the client to the connection pool for other requests to reuse
+          done();
+
+          res.writeHead("200", {'content-type': 'application/json'});
+          res.end(JSON.stringify(result.rows));
+        });
+      });
+  });
+
+app.get('/getQuery/2013', function (req, res) {
+    //allows for users' input
+    pg.connect(conString, function(err, client, done) {
+        var handleError = function(err, res) {
+          // no error occurred, continue with the request
+          if(!err) return false;
+          else console.log(err);
+
+          // An error occurred, remove the client from the connection pool.
+          // A truthy value passed to done will remove the connection from the pool
+          // instead of simply returning it to be reused.
+          // In this case, if we have successfully received a client (truthy)
+          // then it will be removed from the pool.
+          done(client);
+          res.writeHead("500", {'content-type': 'text/plain'});
+          res.end('An error occurred');
+          return true;
+        };    
+
+        var args = [];
+        var query = "select charge_description, count(*) as yr1 from arjis_crimes";
+  
+        //var query = "select * from arjis_crimes";
+        //console.log(query);
+        // filter by zip code if available, otherwise return all data'
+        if(req.query.zipcode) {
+          query += " WHERE zip='" + req.query.zipcode + "' and date_part('year', activity_date)='2013' group by charge_description order by count(*)";
+          //query += " WHERE zip='" + req.query.zipcode + "' group by charge_description limit 10";
+          //args.push(req.query.zipcode);
+          console.log("############ " + query);
+        }
+        console.log(query);
+        client.query(query, args, function(err, result) {
+          if(handleError(err, res)) return;
+
+          // return the client to the connection pool for other requests to reuse
+          done();
+
+          res.writeHead("200", {'content-type': 'application/json'});
+          res.end(JSON.stringify(result.rows));
+        });
+      });
+  });
+
+app.get('/getQuery/2014', function (req, res) {
+    //allows for users' input
+    pg.connect(conString, function(err, client, done) {
+        var handleError = function(err, res) {
+          // no error occurred, continue with the request
+          if(!err) return false;
+          else console.log(err);
+
+          // An error occurred, remove the client from the connection pool.
+          // A truthy value passed to done will remove the connection from the pool
+          // instead of simply returning it to be reused.
+          // In this case, if we have successfully received a client (truthy)
+          // then it will be removed from the pool.
+          done(client);
+          res.writeHead("500", {'content-type': 'text/plain'});
+          res.end('An error occurred');
+          return true;
+        };    
+
+        var args = [];
+        var query = "select charge_description, count(*) as yr1 from arjis_crimes";
+  
+        //var query = "select * from arjis_crimes";
+        //console.log(query);
+        // filter by zip code if available, otherwise return all data'
+        if(req.query.zipcode) {
+          query += " WHERE zip='" + req.query.zipcode + "' and date_part('year', activity_date)='2014' group by charge_description order by count(*) desc limit 10";
+          //query += " WHERE zip='" + req.query.zipcode + "' group by charge_description limit 10";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
         }

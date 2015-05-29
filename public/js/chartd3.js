@@ -3,10 +3,10 @@ var d3arr;
 
 function dashboard(id, fData){
     var barColor = 'steelblue';
-    function segColor(c){ return {low:"#807dba", mid:"#e08214"}[c]; }
+    function segColor(c){ return {year_2013:"#807dba", year_2014:"#e08214"}[c]; }
     
     // compute total for each charge.
-    fData.forEach(function(d){d.total=d.freq.low+d.freq.mid;});
+    fData.forEach(function(d){d.total=d.freq.year_2013+d.freq.year_2014;});
     
     // function to handle histogram.
     function histoGram(fD){
@@ -54,7 +54,7 @@ function dashboard(id, fData){
             .attr("text-anchor", "middle");
         
         function mouseover(d){  // utility function to be called on mouseover.
-            // filter for selected state.
+            // filter for selected charge.
             var st = fData.filter(function(s){ return s.charge == d[0];})[0],
                 nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
                
@@ -186,7 +186,7 @@ function dashboard(id, fData){
     }
     
     // calculate total frequency by segment for all charges.
-    var tF = ['low','mid'].map(function(d){ 
+    var tF = ['year_2013','year_2014'].map(function(d){ 
         return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))}; 
     });    
     
@@ -199,16 +199,16 @@ function dashboard(id, fData){
 }
 
 var freqData=[
-    {charge:'AL',freq:{low:4786, mid:1319, high:249}}
-    ,{charge:'AZ',freq:{low:1101, mid:412, high:674}}
-    ,{charge:'CT',freq:{low:932, mid:2149, high:418}}
-    ,{charge:'DE',freq:{low:832, mid:1152, high:1862}}
-    ,{charge:'FL',freq:{low:4481, mid:3304, high:948}}
-    ,{charge:'GA',freq:{low:1619, mid:167, high:1063}}
-    ,{charge:'IA',freq:{low:1819, mid:247, high:1203}}
-    ,{charge:'IL',freq:{low:4498, mid:3852, high:942}}
-    ,{charge:'IN',freq:{low:797, mid:1849, high:1534}}
-    ,{charge:'KS',freq:{low:162, mid:379, high:471}}
+    {charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}}
 ];
 
 // dashboard('#dashboard',freqData);
@@ -225,15 +225,15 @@ $(document).ready(function() {
     //   DelphiDemo.getNewData(value);
     // }
     //console.log(d3arr);
-    DelphiDemo.setQ();
-    d3arr = DelphiDemo.getQ();
+    //DelphiDemo.setQ();
+    d3arr = DelphiDemo.getQQ();
     //DelphiDemo.printQ();
     //console.log(d3arr);
-    //DelphiDemo.printQ();
+    //DelphiDemo.printQQ();
     for(var i = 0; i < 10; i++){
-        freqData[i].charge = d3arr[i].charge;
-        freqData[i].freq.low = d3arr[i].freq.yr1;
-        freqData[i].freq.med = d3arr[i].freq.yr2;
+        freqData[i].charge = d3arr[i].charge.split(' ')[0];
+        freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
+        freqData[i].freq.year_2014 = d3arr[i].freq.yr2;
 
     }
     dashboard('#dashboard',freqData);
