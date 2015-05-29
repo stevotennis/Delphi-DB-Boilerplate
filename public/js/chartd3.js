@@ -10,7 +10,7 @@ function dashboard(id, fData){
     
     // function to handle histogram.
     function histoGram(fD){
-        var hG={},    hGDim = {t: 60, r: 0, b: 30, l: 0};
+        var hG={},    hGDim = {t: 60, r: 0, b: 100, l: 50};
         hGDim.w = 500 - hGDim.l - hGDim.r, 
         hGDim.h = 300 - hGDim.t - hGDim.b;
             
@@ -27,7 +27,14 @@ function dashboard(id, fData){
         // Add x-axis to the histogram svg.
         hGsvg.append("g").attr("class", "x axis")
             .attr("transform", "translate(0," + hGDim.h + ")")
-            .call(d3.svg.axis().scale(x).orient("bottom"));
+            .call(d3.svg.axis().scale(x).orient("bottom"))
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", function(d) {
+                return "rotate(-65)"
+            });
 
         // Create function for y-axis map.
         var y = d3.scale.linear().range([hGDim.h, 0])
@@ -219,6 +226,7 @@ $(document).ready(function() {
   //DelphiDemo.getQ();
 
   $('#ready').submit(function(evt) {
+    console.log("READY clicked");
     //var value = $(evt.target).find('.target').val();
     // if(!isNaN(parseFloat(value)) && isFinite(value)) {
     //   console.log(value);
@@ -228,7 +236,8 @@ $(document).ready(function() {
     DelphiDemo.setQ();
     d3arr = DelphiDemo.getQ();
     //DelphiDemo.printQ();
-    //console.log(d3arr);
+    console.log("d3arr vvvvv");
+    console.log(d3arr);
     //DelphiDemo.printQ();
     for(var i = 0; i < 10; i++){
         freqData[i].charge = d3arr[i].charge;

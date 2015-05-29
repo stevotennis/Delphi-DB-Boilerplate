@@ -5,8 +5,16 @@ var DelphiDemo = DelphiDemo || (function() {
   var distQ = new Array();
   var arr = new Array();
   var tmp = {charge:"", freq:0};
+  //var wc = [];
   var delphiZip;
   var cnt;
+  var wcArray;
+  var wc2d = [];
+  var charge = []
+  var charges = [];
+  var num = [];
+  var nums = [];
+  
   
   /** 
    * Send an ajax request to the server to retrieve delphi db data.
@@ -23,8 +31,6 @@ var DelphiDemo = DelphiDemo || (function() {
       //console.log(arr);
       $("#delphi-table").append(rows);
     });
-
-
   };
 
   /** 
@@ -36,9 +42,9 @@ var DelphiDemo = DelphiDemo || (function() {
   };
 
   self.setQ = function(){
-    console.log("Getting new Query from here for D3");
+    console.log("Inside setQ()");
     $.get("/delphidata", delphiZip && {zipcode: delphiZip}, function(data) {
-      console.log(delphiZip);
+      console.log("!!!! delphiZip = " + delphiZip);
       var rows = $.map(data, function (item, i) {
         var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         tmp.charge = item.charge_description;
@@ -55,7 +61,12 @@ var DelphiDemo = DelphiDemo || (function() {
       }
       //console.log(distQ.length);
     });
+
+    console.log("END setQ()");
+    console.log("distQ vvvvvvv");
+    console.log(distQ);
     return distQ;
+
   };
 
   // Use user input to render new stuff
@@ -83,7 +94,8 @@ var DelphiDemo = DelphiDemo || (function() {
         //tmp.freq.yr2 = 0;
         if(arr.length < 10)
           arr.push(tmp);
-        // console.log(tmp.charge);
+        //console.log("$$$$$$$$ arr vvv");
+        //console.log(arr);
         // console.log(tmp.freq);
         //console.log(arr[arr.length-1].charge);
         //console.log(arr[arr.length-1].freq);
@@ -95,6 +107,9 @@ var DelphiDemo = DelphiDemo || (function() {
     );
   };
 
+
+  
+
   self.printQ = function(){
     for(var i = 0; i < arr.length; i++){
         console.log("The element @ index (" + i + ") is " + arr[i].charge + "with toatl of " + arr[i].total + " occurances.\n");
@@ -103,8 +118,13 @@ var DelphiDemo = DelphiDemo || (function() {
   }
 
   self.getQ = function(){
+    console.log("Inside getQ()");
+    console.log("arr = " + arr);
+
+    console.log("END getQ()");
     return arr;
   }
+
 
   self.printDistQ = function(){
     console.log("hello");
@@ -114,6 +134,94 @@ var DelphiDemo = DelphiDemo || (function() {
         //console.log("The element @ index (" + i + ") is " + arr[i] + ".\n");
     }
   }
+
+
+
+  /*
+  self.wordCloud = function(zip) {
+    console.log("Inside wordCloud function");
+
+    $.get("/wordCloud", zip && {zipcode: zip}, function(data) {
+      var rows = $.map(data, function (item, i) {
+        
+        wcArray.push(item.charge_description);
+        wcArray.push(item.count);
+
+        console.log(wcArray);
+
+        wcArray.push(item.count);
+
+        console.log("wcArray");
+        console.log(wcArray);
+
+        return wcArray;
+      })
+      
+    });
+  };
+  */
+
+  self.setWordCloud = function(){
+    console.log("Inside setWordCloud()");
+    $.get("/wordCloud", delphiZip && {zipcode: delphiZip}, function(data) {
+      console.log("+++++++ delphiZip: " + delphiZip);
+      var rows = $.map(data, function (item, i) {
+      
+        charge[i] = item.charge_description;
+        console.log("charge[" + i + "] = " + charge[i]);
+
+        charges.push(charge[i]);
+        console.log("charges = " + charges);
+        
+
+        num[i] = item.num;
+        console.log("num[" + i + "] = " + num[i]);
+
+        nums.push(num[i]);
+        console.log("nums = " + nums);
+
+      }).join("");
+
+      console.log("CHARGES = " + charges);
+      console.log(charges.length);
+
+      console.log("NUMS = " + nums);
+      console.log(nums.length);
+
+      for(var i=0; i<charges.length && i<nums.length; i++){
+        wc2d[i] = [ charges[i], nums[i] ];
+      }
+
+      console.log("wc2d = " + wc2d);
+      console.log(wc2d);
+
+      console.log(wc2d[0]);
+      console.log(wc2d[0][0]);
+      console.log(wc2d[0][1]);
+
+      console.log(wc2d[1]);
+      console.log(wc2d[1][0]);
+      console.log(wc2d[1][1]);
+
+    });
+    console.log("END setWordCloud()");
+    console.log("wc2d vvvvvvv");
+    console.log(wc2d);
+    return wc2d;
+  };
+
+  self.getWordCloud = function(){
+    console.log("Inside getWordCloud()");
+    console.log("wc2d = " + wc2d);
+
+    console.log("END getWordCloud()");
+    return wc2d;
+  }
+
+
+
+
+
 
   return self;
 })();
@@ -129,6 +237,7 @@ $(document).ready(function() {
     if(!isNaN(parseFloat(value)) && isFinite(value)) {
       console.log(value);
       DelphiDemo.getNewData(value);
+      DelphiDemo.setWordCloud();
     }
     evt.preventDefault();
   });
