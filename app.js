@@ -36,6 +36,8 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+
+
 app.get('/delphidata', function (req, res) {
     // test variable
     var active = 1;
@@ -318,6 +320,16 @@ app.get('/wordCloud', function (req, res) {
 });
 
 ////////////////////// END WORD CLOUD ////////////////////////////////////////
+
+
+
+
+////////////////////// CRIME TIME ////////////////////////////////////////////
+
+
+////////////////////// END CRIME TIME ////////////////////////////////////////
+
+
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));

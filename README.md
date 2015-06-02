@@ -2,6 +2,10 @@ COGS 121 Final Project - Spring 2015
 ===========
 
 TO DO:
+- Initial Bar Chart TOTAL number incorrect
+	- SOL: Was concatenating a string and an int to a string
+	- Used parseInt() to add two ints.
+	
 - Fix the size of the charge_description w/in the wordcloud
 - Generate random colors for each charge_description in the word cloud
 - FIX BUG - when click zipcode logs info TWICE for some reason....

@@ -6,7 +6,14 @@ function dashboard(id, fData){
     function segColor(c){ return {year_2013:"#807dba", year_2014:"#e08214"}[c]; }
     
     // compute total for each charge.
-    fData.forEach(function(d){d.total=d.freq.year_2013+d.freq.year_2014;});
+    fData.forEach(function(d){
+        console.log("FUCK 2013");
+        console.log( parseInt(d.freq.year_2013) );
+
+        console.log("FUCK 2014");
+        console.log(d.freq.year_2014);
+        d.total=parseInt(d.freq.year_2013)+d.freq.year_2014;
+    });
     
     // function to handle histogram.
     function histoGram(fD){
