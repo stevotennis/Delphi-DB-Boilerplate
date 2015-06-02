@@ -1,5 +1,6 @@
 COGS 121 Final Project - Spring 2015
 ===========
+Jonathan Mariano A10271793 jamarian@ucsd.edu
 
 TO DO:
 - Initial Bar Chart TOTAL number incorrect
