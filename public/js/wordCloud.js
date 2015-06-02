@@ -16,6 +16,8 @@ var DATA = [['vandalism', 100],
 var OFFSET = 8;
 var wordCloudArray = [];
 
+//var randColor = '+Math.floor((Math.random() * 255)+0)+'; // Generate RaNdOm ColOR JON
+
 function getFont(style, size, name) {
     return (style + ' ' + size + 'px ' + name);
 }
@@ -32,7 +34,7 @@ function measureText(text, font, size, context) {
 function putText(text, font, x, y, context) {
     context.font = font;
     context.textBaseline = 'top';
-    context.fillStyle = 'rgba(255, 0, 0, 0.5)';
+    context.fillStyle = 'rgba('+Math.floor((Math.random() * 255)+0)+','+Math.floor((Math.random() * 255)+0)+','+Math.floor((Math.random() * 255)+0)+',0.5';
     context.fillText(text, x, y);
 }
 
