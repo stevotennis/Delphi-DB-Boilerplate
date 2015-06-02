@@ -4,9 +4,15 @@ var DelphiDemo = DelphiDemo || (function() {
   var self = {};
   var distQ = new Array();
   var arr = new Array();
-  var tmp = {charge:"", freq:0};
+  //var tmp = {charge:"", freq:0};
   var delphiZip;
-  var cnt;
+  //var cnt;
+  var wcArray;
+  var wc2d = [];
+  var charge = []
+  var charges = [];
+  var num = [];
+  var nums = [];
   
   /** 
    * Send an ajax request to the server to retrieve delphi db data.
@@ -52,6 +58,8 @@ var DelphiDemo = DelphiDemo || (function() {
     });
   };
 
+
+  // setting up the number of crime for 2013 and 2014 
   self.set2013 = function(){
     console.log("Getting new data for 2013");
     $.get("/getQuery/2013", delphiZip && {zipcode: delphiZip}, function(data) {
@@ -71,21 +79,6 @@ var DelphiDemo = DelphiDemo || (function() {
       }).join("");
     });
   };
-
-  // self.set2014 = function(){
-  //   console.log("Getting new data for 2014");
-  //   $.get("/getQuery/2014", delphiZip && {zipcode: delphiZip}, function(data) {
-  //     console.log(delphiZip);
-  //     var ind = 0;
-  //     var rows = $.map(data, function (item, i) {
-  //       //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
-  //       //tmp.charge = item.charge_description;
-  //       distQ[ind].freq.yr1 = item.yr2;
-  //       console.log("The number of " + distQ[ind].charge + " is " + distQ[ind].freq.yr2);
-  //       ind++;
-  //     }).join("");
-  //   });
-  // };
 
   // Use user input to render new stuff
   self.getNewData = function(zip){
@@ -146,6 +139,63 @@ var DelphiDemo = DelphiDemo || (function() {
     }
   }
 
+  self.setWordCloud = function(){
+    console.log("Inside setWordCloud()");
+    $.get("/wordCloud", delphiZip && {zipcode: delphiZip}, function(data) {
+      console.log("+++++++ delphiZip: " + delphiZip);
+      var rows = $.map(data, function (item, i) {
+      
+        charge[i] = item.charge_description;
+        console.log("charge[" + i + "] = " + charge[i]);
+
+        charges.push(charge[i]);
+        console.log("charges = " + charges);
+        
+
+        num[i] = item.num;
+        console.log("num[" + i + "] = " + num[i]);
+
+        nums.push(num[i]);
+        console.log("nums = " + nums);
+
+      }).join("");
+
+      console.log("CHARGES = " + charges);
+      console.log(charges.length);
+
+      console.log("NUMS = " + nums);
+      console.log(nums.length);
+
+      for(var i=0; i<charges.length && i<nums.length; i++){
+        wc2d[i] = [ charges[i], nums[i] ];
+      }
+
+      console.log("wc2d = " + wc2d);
+      console.log(wc2d);
+
+      console.log(wc2d[0]);
+      console.log(wc2d[0][0]);
+      console.log(wc2d[0][1]);
+
+      console.log(wc2d[1]);
+      console.log(wc2d[1][0]);
+      console.log(wc2d[1][1]);
+
+    });
+    console.log("END setWordCloud()");
+    console.log("wc2d vvvvvvv");
+    console.log(wc2d);
+    return wc2d;
+  };
+
+  self.getWordCloud = function(){
+    console.log("Inside getWordCloud()");
+    console.log("wc2d = " + wc2d);
+
+    console.log("END getWordCloud()");
+    return wc2d;
+  }
+
   return self;
 })();
 
@@ -162,6 +212,7 @@ $(document).ready(function() {
       DelphiDemo.getNewData(value);
       DelphiDemo.setQ();
       DelphiDemo.set2013();
+      DelphiDemo.setWordCloud();
     }
     evt.preventDefault();
   });

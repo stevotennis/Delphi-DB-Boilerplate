@@ -199,16 +199,16 @@ function dashboard(id, fData){
 }
 
 var freqData=[
-    {charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}}
+    {charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
 ];
 
 // dashboard('#dashboard',freqData);
@@ -234,7 +234,8 @@ $(document).ready(function() {
         freqData[i].charge = d3arr[i].charge.split(' ')[0];
         freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
         freqData[i].freq.year_2014 = d3arr[i].freq.yr2;
-
+        freqData[i].total = d3arr[i].total;
+        //console.log(freqData[i].total);
     }
     dashboard('#dashboard',freqData);
     evt.preventDefault();

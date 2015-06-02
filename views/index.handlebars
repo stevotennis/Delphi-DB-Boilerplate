@@ -1,6 +1,15 @@
 <div id='dashboard'></div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="js/chartd3.js"></script>
+<script src="js/wordCloud.js"></script>
+
+<form id="wordCloud">
+  <input type="submit" value="View Word Cloud" />
+</form>  
+
+
+<canvas id="test" width="1060" height="300" style="border:1px dashed gray;"></canvas>
+<canvas id="cloud" width="1060" height="300" style="display: none;"></canvas>
 
 <div class="container">
   <h2>Delphi Data</h2>
@@ -11,7 +20,7 @@
   </form>
   <form id="ready">
     <input type="submit" value="View D3 array" />
-  </form>        
+  </form>    
   <table class="table table-hover">
     <thead>
       <tr class="dataDisplay">

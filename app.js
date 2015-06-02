@@ -270,6 +270,55 @@ app.get('/getQuery/2014', function (req, res) {
       });
   });
 
+////////////////////// WORD CLOUD ////////////////////////////////////////////
+
+app.get('/wordCloud', function (req, res) {
+    // initialize connection pool 
+    console.log("@@@@ Inside APP.js wordCloud");
+        
+    pg.connect(conString, function(err, client, done) {
+        var handleError = function(err, res) {
+          // no error occurred, continue with the request
+          if(!err) return false;
+          else console.log(err);
+
+          // An error occurred, remove the client from the connection pool.
+          // A truthy value passed to done will remove the connection from the pool
+          // instead of simply returning it to be reused.
+          // In this case, if we have successfully received a client (truthy)
+          // then it will be removed from the pool.
+          done(client);
+          res.writeHead("500", {'content-type': 'text/plain'});
+          res.end('An error occurred');
+          return true;
+        };    
+
+        var args = [];
+        var query = "select charge_description, count(*) as num from arjis_crimes";
+        //var query = "select * from arjis_crimes";
+        //console.log(query);
+        // filter by zip code if available, otherwise return all data'
+        if(req.query.zipcode) {
+          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
+          //query += " WHERE zip='" + req.query.zipcode + "'";
+          //args.push(req.query.zipcode);
+          console.log("@@@@@@@@@@@ " + query);
+        }
+        console.log(query);
+        client.query(query, args, function(err, result) {
+          if(handleError(err, res)) return;
+
+          // return the client to the connection pool for other requests to reuse
+          done();
+
+          res.writeHead("200", {'content-type': 'application/json'});
+          res.end(JSON.stringify(result.rows));
+        });
+    });
+});
+
+////////////////////// END WORD CLOUD ////////////////////////////////////////
+
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));
 });
