@@ -1,26 +1,29 @@
-<div id='dashboard'></div>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="js/chartd3.js"></script>
-<script src="js/wordCloud.js"></script>
+<form id="custom-zip">
+    <input type="text" placeholder="Enter a Zip Code" class="target" />
+    <input type="submit" value="View Data" />
+</form>
+
+<form id="ready">
+    <input type="submit" value="View D3 array" />
+</form>  
 
 <form id="wordCloud">
   <input type="submit" value="View Word Cloud" />
 </form>  
 
-
 <canvas id="test" width="1060" height="300" style="border:1px dashed gray;"></canvas>
 <canvas id="cloud" width="1060" height="300" style="display: none;"></canvas>
 
+<div id='dashboard'></div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="js/chartd3.js"></script>
+<script src="js/wordCloud.js"></script>
+
+
 <div class="container">
   <h2>Delphi Data</h2>
-  <p>Smoking in adults by age from 1984-Present:</p>
-  <form id="custom-zip">
-    <input type="text" placeholder="Enter a Zip Code" class="target" />
-    <input type="submit" value="View Data" />
-  </form>
-  <form id="ready">
-    <input type="submit" value="View D3 array" />
-  </form>    
+  <p>San Diego Regional Crimes:</p>
+    
   <table class="table table-hover">
     <thead>
       <tr class="dataDisplay">
