@@ -12,7 +12,7 @@ function dashboard(id, fData){
 
         console.log("FUCK 2014");
         console.log(d.freq.year_2014);
-        d.total=parseInt(d.freq.year_2013)+d.freq.year_2014;
+        d.total=parseInt(d.freq.year_2013)+parseInt(d.freq.year_2014);
     });
     
     // function to handle histogram.
