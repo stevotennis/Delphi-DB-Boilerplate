@@ -10,13 +10,13 @@ var map = new Datamap({
         },
     geographyConfig: {
       dataUrl: 'maps/sdcounty.topo.json',
-      highlightFillColor: '#CCCCCC',
+      highlightFillColor: '#008000',
       highlightBorderColor: '#'
     },
     scope: 'sdcounty',
     fills: {
-      defaultFill: '#6699FF',
-      someKey: '#6699FF'
+      defaultFill: '#8066ff',
+      someKey: '#8066ff'
     },
     data: {
       '1': {fillKey: 'someKey'},
@@ -27,7 +27,7 @@ var map = new Datamap({
       var projection = d3.geo.mercator()
 
         .center([-116.746, 33.004])
-        .scale(15000)
+        .scale(20000)
         .translate([element.offsetWidth / 2, element.offsetHeight / 2]);
 
        var path = d3.geo.path().projection(projection);
