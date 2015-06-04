@@ -31,7 +31,8 @@ function measureText(text, font, size, context) {
     var metrics = context.measureText(text);
     return {
         width: metrics.width + 2 * OFFSET,
-        height: Math.round(size * 1.5)
+        //height: Math.round(size * 1.5)
+        height: Math.round( size )
     };
 }
 
@@ -60,7 +61,7 @@ function getCloud(data, style, name, testid, cloudid) {
     var canvasCloud = document.getElementById(cloudid);
     var contextCloud = canvasCloud.getContext("2d");
 
-    var w = 1060;
+    var w = 1000;
     var h = 300;
 
     var i;
@@ -68,11 +69,16 @@ function getCloud(data, style, name, testid, cloudid) {
     for (i = 0; i < data.length; i++) {
         var m = data[i];
         var text = m[0];
-        var size = m[1];
+        var size = m[1] / 2;
+
+        size = Math.max(Math.round(size * 0.85), 10);
+        
         var col = true;
         var max = 10;
         var font = getFont(style, size, name);
         var measure = measureText(text, font, size, contextTest);
+
+        console.log("SIZE = " + size);
 
         while (col && (max-- > 0)) {
 
@@ -95,8 +101,13 @@ function getCloud(data, style, name, testid, cloudid) {
             if (col) {
                 contextTest.clearRect(bx, by, bw, bh);
                 contextTest.drawImage(contextCloud.canvas, bx, by, bw, bh, bx, by, bw, bh);
-                size = Math.max(Math.round(size * 0.85), 10);
+                //size = Math.max(Math.round(size * 0.85), 10);
+                //size = Math.max( size );
+
+                console.log("NEW SIZE = " + size);
+
                 font = getFont(style, size, name);
+
                 measure = measureText(text, font, size, contextTest);
             }
 
@@ -122,13 +133,13 @@ $(document).ready(function() {
         console.log(wordCloudArray);
 
 
-        console.log("DATA shit");
-        console.log("DATA[0][0] " + DATA[0][0]);
+        //console.log("DATA shit");
+        //console.log("DATA[0][0] " + DATA[0][0]);
         //console.log("wordCloudArray[0][0] " + wordCloudArray[0][0]);
        
 
         for(var i=0; i<wordCloudArray.length; i++){
-            console.log(DATA[i]);
+            //console.log(DATA[i]);
             console.log(wordCloudArray[i]);
         }
 
