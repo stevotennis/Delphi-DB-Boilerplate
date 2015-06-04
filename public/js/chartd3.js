@@ -17,7 +17,7 @@ function dashboard(id, fData){
     
     // function to handle histogram.
     function histoGram(fD){
-        var hG={},    hGDim = {t: 60, r: 0, b: 100, l: 50};
+        var hG={},    hGDim = {t: 100, r: 0, b: 100, l: 50};
         hGDim.w = 500 - hGDim.l - hGDim.r, 
         hGDim.h = 300 - hGDim.t - hGDim.b;
             
