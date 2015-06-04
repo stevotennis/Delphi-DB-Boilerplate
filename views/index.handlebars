@@ -7,11 +7,17 @@ table.scroll {
 }
 
 table.scroll tbody,
-table.scroll thead { display: block; }
+table.scroll thead { 
+  display: block; 
+}
 
 thead tr th { 
     line-height: 30px;
     text-align: center;
+}
+
+thead th {
+  width: 20%;
 }
 
 
@@ -25,7 +31,7 @@ table.scroll tbody {
 tbody { border-top: 2px solid black; }
 
 tbody td, thead th {
-    /* width: 20%; */ /* Optional */
+    /*width: 20%; */ /* Optional */
     border-right: 1px solid black;
     /* white-space: nowrap; */
 }
@@ -48,7 +54,7 @@ tbody td:last-child, thead th:last-child {
         <div class="container">
           <table class="scroll">
             <thead>
-              <tr class="dataDisplay">
+              <tr>
 
                 <th align="center">Community</th>
                 <th align="center">Zip Code</th>
