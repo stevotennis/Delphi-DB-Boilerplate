@@ -23,7 +23,7 @@ var DelphiDemo = DelphiDemo || (function() {
         console.log(item.community);
         //arr.push(item.charge_description);
 
-        return "<tr><td>" + item.community + "</td><td>" + item.zip + "</td></tr>";
+        return "<tr><td>" + item.community + '</td><td id="clickzip" class="target">' + item.zip + "</td></tr>";
       }).join("");
       //console.log("rows " + rows);
       
@@ -91,10 +91,7 @@ var DelphiDemo = DelphiDemo || (function() {
         //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         //tmp.charge = item.charge_description;
         for(var i = 0; i < distQ.length; i++){
-          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
           if(item.charge_description == distQ[i].charge){
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             console.log("The charge from the query is " + item.charge_description + " and the charge from the distQ is " + distQ[i].charge);
             distQ[i].freq.yr1 = item.yr1;
             distQ[i].freq.yr2 = distQ[i].total - item.yr1;        
@@ -110,12 +107,20 @@ var DelphiDemo = DelphiDemo || (function() {
     console.log("#### In getNewData: " + zip);
     console.log("Getting data");
     delphiZip = zip;
+
+    while(distQ.length > 0) distQ.pop();
     
-    // Get new data
+    // Spinner wait progress
+    var spinner = document.getElementById("parent");
+    spinner.innerHTML = spinner.innerHTML + '<div id="prog" class="spinner"><div class="dot1"></div><div class="dot2"></div></div>';
+
+    // Remove the old data (if any)
     var par = document.getElementById("delphi-table");
-    while(par.hasChildNodes()){
-      par.removeChild(par.firstChild);
-    }
+    var par1 = document.getElementById("dashboard");
+    var par2 = document.getElementById("WC");
+    while(par.hasChildNodes()) par.removeChild(par.firstChild);
+    while(par1.hasChildNodes()) par1.removeChild(par1.firstChild);
+    while(par2.hasChildNodes()) par2.removeChild(par2.firstChild);
 
     $.get("/delphidata", zip && {zipcode: zip}, function(data) {
       //if(!verifyData(data, zip)) return;
@@ -125,21 +130,13 @@ var DelphiDemo = DelphiDemo || (function() {
         //tmp.charge = item.charge_description;
         tmp.charge = item.charge_description;
         tmp.total = item.num;
-        //tmp.freq.yr1 = item.num;
-        //tmp.freq.yr2 = item.num -1;
-        //tmp.freq.yr2 = 0;
-        //if(arr.length < 10)
         arr.push(tmp);
-        // console.log(tmp.charge);
-        // console.log(tmp.freq);
-        //console.log(arr[arr.length-1].charge);
-        //console.log(arr[arr.length-1].freq);
 
         return "<tr><td>" + item.agency + "</td><td>" + item.charge_description + "</td><td>" + item.activity_date + "</td><td>" + item.block_address + "</td><td>" + item.zip + "</td><td>" + item.community + "</td></tr>";
       }).join("");
       $("#delphi-table").append(rows);
-      }
-    );
+      while(spinner.hasChildNodes) spinner.removeChild(spinner.firstChild);
+    });
   };
 
   self.printQ = function(){
@@ -234,13 +231,21 @@ $(document).ready(function() {
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
-    //if(!isNaN(parseFloat(value)) && isFinite(value)) {
-      console.log(value);
-      DelphiDemo.getNewData(value);
-      DelphiDemo.setQ();
-      DelphiDemo.set2013();
-      DelphiDemo.setWordCloud();
-    //}
+    console.log(value);
+    DelphiDemo.getNewData(value);
+    DelphiDemo.setQ();
+    DelphiDemo.set2013();
+    DelphiDemo.setWordCloud();
+    evt.preventDefault();
+  });
+
+  $('#clickzip').submit(function(evt) {
+    var value = $(evt.target).find('.target').val();
+    console.log(value);
+    DelphiDemo.getNewData(value);
+    DelphiDemo.setQ();
+    DelphiDemo.set2013();
+    DelphiDemo.setWordCloud();
     evt.preventDefault();
   });
 });

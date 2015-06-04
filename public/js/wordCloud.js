@@ -55,6 +55,9 @@ function testCollision(pixels) {
 }
 
 function getCloud(data, style, name, testid, cloudid) {
+    var tmp = document.getElementById("WC");
+    tmp.innerHTML = '<canvas id="test" width="1060" height="300" style="border:1px dashed gray;"></canvas><canvas id="cloud" width="1060" height="300" style="display: none;"></canvas>'
+
     var canvasTest = document.getElementById(testid);
     var contextTest = canvasTest.getContext("2d");
     var canvasCloud = document.getElementById(cloudid);
