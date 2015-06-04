@@ -69,10 +69,13 @@ function getCloud(data, style, name, testid, cloudid) {
     for (i = 0; i < data.length; i++) {
         var m = data[i];
         var text = m[0];
+
+        //text.rotate(Math.PI*2/(i*6));
+
         var size = m[1] / 2;
 
         size = Math.max(Math.round(size * 0.85), 10);
-        
+
         var col = true;
         var max = 10;
         var font = getFont(style, size, name);

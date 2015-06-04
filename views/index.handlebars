@@ -100,15 +100,19 @@ tbody td:last-child, thead th:last-child {
 
 <div class="jumbotron">
   <div class="container">
-    <canvas id="test" width="1000px" height="300px" style="border:1px dashed gray;"></canvas>
+    <!-- <canvas id="test" width="1000px" height="300px" style="border:1px dashed gray;"></canvas> -->
+    <canvas id="test" width="1000px" height="300px"></canvas>
     <canvas id="cloud" width="1000px" height="300px" style="display: none;"></canvas>
   </div>
 </div>
 
 <!-- --------------------- END WORD CLOUD ------------------------------ -->
 
-
-<div id='dashboard'></div>
+<div class="jumbotron">
+  <div class="container">
+    <div id='dashboard'></div>
+  </div>
+</div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.9/topojson.min.js"></script>
