@@ -1,11 +1,71 @@
+<style>
+table.scroll {
+    width: 100%;  /* Optional */
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 2px solid black;
+}
+
+table.scroll tbody,
+table.scroll thead { display: block; }
+
+thead tr th { 
+    line-height: 30px;
+    text-align: center;
+}
+
+
+table.scroll tbody {
+    max-height: 350px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+tbody { border-top: 2px solid black; }
+
+tbody td, thead th {
+    /* width: 20%; */ /* Optional */
+    border-right: 1px solid black;
+    /* white-space: nowrap; */
+}
+
+tbody td:last-child, thead th:last-child {
+    border-right: none;
+}
+
+</style>
+
 
 <!-- ------------------ MAP of San Diego Counties ---------------------- -->
 <div class="jumbotron">
   <div class="container">
-    <div class="col-md-12" id="sdmap" style="height: 400px">
+    <div class="row">
+      <div class="col-md-8" id="sdmap" style="height: 400px">
+      </div>
+
+      <div class="col-md-4">
+        <div class="container">
+          <table class="scroll">
+            <thead>
+              <tr class="dataDisplay">
+
+                <th align="center">Community</th>
+                <th align="center">Zip Code</th>
+             
+              </tr>
+            </thead>
+
+            <tbody id="zipTable">
+            </tbody>
+
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- --------------- END MAP of San Diego Counties --------------------- -->
 
@@ -56,6 +116,7 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="js/chartd3.js"></script>
 <script src="js/wordCloud.js"></script>
+<script src="js/tableScroll.js"></script>
 
 
 <div class="container">

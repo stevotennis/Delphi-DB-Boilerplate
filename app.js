@@ -36,7 +36,22 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+//FOR SEARCH TABLE in JumboTron
+app.get('/zip', function (req, res) {
+  console.log("In SEARCHZIP");
+  pg.connect(conString, function(err, client, done) {
+    if(err) return console.log(err);
+    //var zcode = document.getElementById('zip');
+    var query = "select distinct community, zip from arjis_crimes";
+    client.query(query, function(err, result) {
+      // return the client to the connection pool for other requests to reuse
+      done();
 
+      res.writeHead("200", {'content-type': 'application/json'});
+      res.end(JSON.stringify(result.rows));
+    });
+  });
+});
 
 app.get('/delphidata', function (req, res) {
     // test variable

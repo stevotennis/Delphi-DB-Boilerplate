@@ -7,7 +7,7 @@ var map = new Datamap({
     done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
                 var id = geography.id;
-                var name = geography.name;
+                var name = geography.properties.name;
                 console.log("The id: " + id);
                 console.log("The name: " + name);
                 //testcolor('#000000', id);
@@ -19,6 +19,8 @@ var map = new Datamap({
       highlightFillColor: '#8066ff',
       highlightBorderColor: '#'
     },
+
+    popupOnHover: true, //disable the popup while hovering
     
     scope: 'sdcounty',
     fills: {

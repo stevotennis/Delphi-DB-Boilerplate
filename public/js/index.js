@@ -14,9 +14,28 @@ var DelphiDemo = DelphiDemo || (function() {
   var num = [];
   var nums = [];
   
+
+  self.getZip = function() {
+    console.log("3) IN GET_SEARCH_ZIP");
+    $.getJSON("/zip", function(data) {
+      console.log("GET ZIP SHIT MOTHA Facker@@@@@");
+      var rows = $.map(data, function (item, i) {
+        console.log(item.community);
+        //arr.push(item.charge_description);
+
+        return "<tr><td>" + item.community + "</td><td>" + item.zip + "</td></tr>";
+      }).join("");
+      console.log("rows " + rows);
+      
+      //console.log(arr);
+      $("#zipTable").append(rows);
+    });
+  };
+
   /** 
    * Send an ajax request to the server to retrieve delphi db data.
    */ 
+   /*
   self.getDelphiData = function() {
     $.getJSON("/delphidata", function(data) {
       var rows = $.map(data, function (item, i) {
@@ -32,12 +51,15 @@ var DelphiDemo = DelphiDemo || (function() {
 
 
   };
+  */
 
   /** 
    * initialize 
    */
   self.init = function() {
-    //self.getDelphiData();
+    console.log("2) IN INIT");
+    self.getZip();
+    console.log("4) END INIT");
   };
 
   self.setQ = function(){
@@ -202,7 +224,9 @@ var DelphiDemo = DelphiDemo || (function() {
 
 
 $(document).ready(function() {
+  console.log("1) BOOMBABY!!!!!!!!!!!!!!!!!!");
   DelphiDemo.init();
+  console.log("5) AFTER INIT in document.ready()");
 
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
