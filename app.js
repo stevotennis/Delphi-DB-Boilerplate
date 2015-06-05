@@ -36,6 +36,19 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+app.get('/about', function(req, res){
+  res.render('about', { user: req.user });
+});
+
+app.get('/contact', function(req, res){
+  res.render('contact', { user: req.user });
+});
+
+app.get('/help', function(req, res){
+  res.render('help', { user: req.user });
+});
+
+
 //FOR SEARCH TABLE in JumboTron
 app.get('/zip', function (req, res) {
   console.log("In SEARCHZIP");
