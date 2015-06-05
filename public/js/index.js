@@ -14,16 +14,24 @@ var DelphiDemo = DelphiDemo || (function() {
   var num = [];
   var nums = [];
   
+  self.getButton = function(input){
+    console.log("Does it work?");
+    self.getNewData(input.innerHTML);
+    self.setQ();
+    self.set2013();
+    self.setWordCloud();
+  }
 
   self.getZip = function() {
     console.log("3) IN GET_SEARCH_ZIP");
+    var cnt = 0;
     $.getJSON("/zip", function(data) {
       console.log("GET ZIP SHIT MOTHA Facker@@@@@");
       var rows = $.map(data, function (item, i) {
         console.log(item.community);
         //arr.push(item.charge_description);
-
-        return "<tr><td>" + item.community + '</td><td id="clickzip" class="target">' + item.zip + "</td></tr>";
+        cnt++;
+        return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
       }).join("");
       //console.log("rows " + rows);
       
@@ -106,7 +114,7 @@ var DelphiDemo = DelphiDemo || (function() {
   self.getNewData = function(zip){
     console.log("#### In getNewData: " + zip);
     console.log("Getting data");
-    delphiZip = zip;
+    delphiZip = zip.toString();
 
     while(distQ.length > 0) distQ.pop();
     
@@ -230,16 +238,6 @@ $(document).ready(function() {
 
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
-    var value = $(evt.target).find('.target').val();
-    console.log(value);
-    DelphiDemo.getNewData(value);
-    DelphiDemo.setQ();
-    DelphiDemo.set2013();
-    DelphiDemo.setWordCloud();
-    evt.preventDefault();
-  });
-
-  $('#clickzip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
     console.log(value);
     DelphiDemo.getNewData(value);
