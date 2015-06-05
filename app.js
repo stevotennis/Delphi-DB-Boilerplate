@@ -109,10 +109,12 @@ app.get('/delphidata', function (req, res) {
         var query = "SELECT * FROM arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
-        if(req.query.zipcode) {
+        if(req.query.zipcode && isNumber(req.query.zipcode)) {
           query += " WHERE zip='" + req.query.zipcode + "'";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
+        }else if(req.query.zipcode){
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "'";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
@@ -193,11 +195,13 @@ app.get('/getQuery', function (req, res) {
         //var query = "select * from arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
-        if(req.query.zipcode) {
+        if(req.query.zipcode  && isNumber(req.query.zipcode)) {
           query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
           //query += " WHERE zip='" + req.query.zipcode + "'";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
+        } else if(req.query.zipcode){
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' group by charge_description order by count(*) desc limit 10";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
@@ -237,11 +241,13 @@ app.get('/getQuery/2013', function (req, res) {
         //var query = "select * from arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
-        if(req.query.zipcode) {
-          query += " WHERE zip='" + req.query.zipcode + "' and date_part('year', activity_date)='2013' group by charge_description order by count(*)";
+        if(req.query.zipcode && isNumber(req.query.zipcode)) {
+          query += " WHERE zip='" + req.query.zipcode + "' and date_part('year', activity_date)='2013' group by charge_description order by count(*) desc limit 10";
           //query += " WHERE zip='" + req.query.zipcode + "' group by charge_description limit 10";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
+        } else if(req.query.zipcode){
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' and date_part('year', activity_date)='2013' group by charge_description order by count(*) desc limit 10";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
@@ -281,11 +287,13 @@ app.get('/getQuery/2014', function (req, res) {
         //var query = "select * from arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
-        if(req.query.zipcode) {
+        if(req.query.zipcode  && isNumber(req.query.zipcode)) {
           query += " WHERE zip='" + req.query.zipcode + "' and date_part('year', activity_date)='2014' group by charge_description order by count(*) desc limit 10";
           //query += " WHERE zip='" + req.query.zipcode + "' group by charge_description limit 10";
           //args.push(req.query.zipcode);
           console.log("############ " + query);
+        } else if(req.query.zipcode){
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' and date_part('year', activity_date)='2014' group by charge_description order by count(*) desc limit 10";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
@@ -328,11 +336,12 @@ app.get('/wordCloud', function (req, res) {
         //var query = "select * from arjis_crimes";
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
-        if(req.query.zipcode) {
-          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 30";
+        if(req.query.zipcode && isNumber(req.query.zipcode)) {
+          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
           //query += " WHERE zip='" + req.query.zipcode + "'";
           //args.push(req.query.zipcode);
-          console.log("@@@@@@@@@@@ " + query);
+        }else if(req.query.zipcode){
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' group by charge_description order by count(*) desc limit 10";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
@@ -357,7 +366,9 @@ app.get('/wordCloud', function (req, res) {
 
 ////////////////////// END CRIME TIME ////////////////////////////////////////
 
-
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Express server listening on port ' + app.get('port'));

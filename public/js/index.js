@@ -25,7 +25,7 @@ var DelphiDemo = DelphiDemo || (function() {
 
         return "<tr><td>" + item.community + "</td><td>" + item.zip + "</td></tr>";
       }).join("");
-      console.log("rows " + rows);
+      //console.log("rows " + rows);
       
       //console.log(arr);
       $("#zipTable").append(rows);
@@ -91,7 +91,10 @@ var DelphiDemo = DelphiDemo || (function() {
         //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         //tmp.charge = item.charge_description;
         for(var i = 0; i < distQ.length; i++){
+          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
           if(item.charge_description == distQ[i].charge){
+            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             console.log("The charge from the query is " + item.charge_description + " and the charge from the distQ is " + distQ[i].charge);
             distQ[i].freq.yr1 = item.yr1;
             distQ[i].freq.yr2 = distQ[i].total - item.yr1;        
@@ -231,13 +234,13 @@ $(document).ready(function() {
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
-    if(!isNaN(parseFloat(value)) && isFinite(value)) {
+    //if(!isNaN(parseFloat(value)) && isFinite(value)) {
       console.log(value);
       DelphiDemo.getNewData(value);
       DelphiDemo.setQ();
       DelphiDemo.set2013();
       DelphiDemo.setWordCloud();
-    }
+    //}
     evt.preventDefault();
   });
 });
