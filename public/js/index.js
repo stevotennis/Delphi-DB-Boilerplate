@@ -1,4 +1,22 @@
 //var arr = new Array();
+var d3arr;
+var doneLoading = false;
+var stop = false;
+
+var wordCloudArray = [];
+
+var freqData=[
+    {charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
+];
 
 var DelphiDemo = DelphiDemo || (function() {
   var self = {};
@@ -26,7 +44,7 @@ var DelphiDemo = DelphiDemo || (function() {
     $.getJSON("/zip", function(data) {
       console.log("GET ZIP SHIT MOTHA Facker@@@@@");
       var rows = $.map(data, function (item, i) {
-        console.log(item.community);
+        //console.log(item.community);
         //arr.push(item.charge_description);
 
         return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
@@ -146,6 +164,7 @@ var DelphiDemo = DelphiDemo || (function() {
       $("#delphi-table").append(rows);
       }
     );
+    return true;
   };
 
   self.printQ = function(){
@@ -231,7 +250,6 @@ var DelphiDemo = DelphiDemo || (function() {
 })();
 
 
-
 $(document).ready(function() {
   console.log("1) BOOMBABY!!!!!!!!!!!!!!!!!!");
   DelphiDemo.init();
@@ -240,13 +258,30 @@ $(document).ready(function() {
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
-    //if(!isNaN(parseFloat(value)) && isFinite(value)) {
-      console.log(value);
-      DelphiDemo.getNewData(value);
-      DelphiDemo.setQ();
-      DelphiDemo.set2013();
-      DelphiDemo.setWordCloud();
-    //}
+    console.log(value);
+    doneLoading = DelphiDemo.getNewData(value);
+    DelphiDemo.setQ();
+    DelphiDemo.set2013();
+    DelphiDemo.setWordCloud();
+    setInterval( function(){
+      if(doneLoading && !stop) {
+
+        // rendering the bar and pie graph
+        d3arr = DelphiDemo.getQQ();
+        for(var i = 0; i < 10; i++){
+          freqData[i].charge = d3arr[i].charge.split(' ')[0];
+          freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
+          freqData[i].freq.year_2014 = d3arr[i].freq.yr2;
+          freqData[i].total = d3arr[i].total;
+          //console.log(freqData[i].total);
+        }
+        dashboard('#dashboard',freqData);
+
+        wordCloudArray = DelphiDemo.getWordCloud();
+        getCloud(wordCloudArray, 'bold italic', 'Amaranth', 'test', 'cloud');
+        stop = true;
+      }
+    }, 1000);
     evt.preventDefault();
   });
 });

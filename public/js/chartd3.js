@@ -1,5 +1,5 @@
 //console.log(arr1);
-var d3arr;
+//var d3arr;
 
 function dashboard(id, fData){
     var barColor = 'steelblue';
@@ -212,19 +212,6 @@ function dashboard(id, fData){
         leg= legend(tF);  // create the legend.
 }
 
-var freqData=[
-    {charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-    ,{charge:'',freq:{year_2013:0, year_2014:0}, total:0}
-];
-
 // dashboard('#dashboard',freqData);
 
 
@@ -241,9 +228,6 @@ $(document).ready(function() {
     //console.log(d3arr);
     //DelphiDemo.setQ();
     d3arr = DelphiDemo.getQQ();
-    //DelphiDemo.printQ();
-    //console.log(d3arr);
-    //DelphiDemo.printQQ();
     for(var i = 0; i < 10; i++){
         freqData[i].charge = d3arr[i].charge.split(' ')[0];
         freqData[i].freq.year_2013 = d3arr[i].freq.yr1;

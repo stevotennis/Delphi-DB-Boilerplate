@@ -14,7 +14,7 @@ var DATA = [['vandalism', 100],
                     ['Christmas', 16]];
 
 var OFFSET = 8;
-var wordCloudArray = [];
+//var wordCloudArray = [];
 
 //var randColor = '+Math.floor((Math.random() * 255)+0)+'; // Generate RaNdOm ColOR JON
 
