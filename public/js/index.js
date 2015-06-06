@@ -1,5 +1,5 @@
 //var arr = new Array();
-var d3arr;
+//var d3arr;
 var doneLoading = false;
 var stop = false;
 
@@ -89,7 +89,7 @@ var DelphiDemo = DelphiDemo || (function() {
   self.setQ = function(){
     console.log("Getting new Query from here for D3");
     $.get("/getQuery", delphiZip && {zipcode: delphiZip}, function(data) {
-      console.log(delphiZip);
+      //console.log(delphiZip);
       var rows = $.map(data, function (item, i) {
         var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         //tmp.charge = item.charge_description;
@@ -115,14 +115,14 @@ var DelphiDemo = DelphiDemo || (function() {
         //var tmp = {charge:'', freq:{yr1:0, yr2: 0}, total:0};
         //tmp.charge = item.charge_description;
         for(var i = 0; i < distQ.length; i++){
-          console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+          //console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
           if(item.charge_description == distQ[i].charge){
-            console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-            console.log("The charge from the query is " + item.charge_description + " and the charge from the distQ is " + distQ[i].charge);
+            //console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            //console.log("The charge from the query is " + item.charge_description + " and the charge from the distQ is " + distQ[i].charge);
             distQ[i].freq.yr1 = item.yr1;
             distQ[i].freq.yr2 = distQ[i].total - item.yr1;        
-            console.log("The number of " + distQ[i].charge + " is " + distQ[i].freq.yr1);
+            //console.log("The number of " + distQ[i].charge + " is " + distQ[i].freq.yr1);
           }
         }
       }).join("");
@@ -134,6 +134,10 @@ var DelphiDemo = DelphiDemo || (function() {
     console.log("#### In getNewData: " + zip);
     console.log("Getting data");
     delphiZip = zip;
+    stop = false;
+    self.clearQQ();
+
+    self.printQQ();
     
     // Get new data
     var par = document.getElementById("delphi-table");
@@ -184,9 +188,14 @@ var DelphiDemo = DelphiDemo || (function() {
 
   self.printQQ = function(){
     for(var i = 0; i < distQ.length; i++){
+        console.log("Printing out DISTQ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
         console.log("The element in distQ @ index (" + i + ") is " + distQ[i].charge + "that happened a total of (" + distQ[i].total + ") times.\n");
         //console.log("The element @ index (" + i + ") is " + arr[i] + ".\n");
     }
+  }
+
+  self.clearQQ = function(){
+    while(distQ.length > 0) distQ.pop();
   }
 
   self.setWordCloud = function(){
@@ -196,51 +205,51 @@ var DelphiDemo = DelphiDemo || (function() {
       var rows = $.map(data, function (item, i) {
       
         charge[i] = item.charge_description;
-        console.log("charge[" + i + "] = " + charge[i]);
+        //console.log("charge[" + i + "] = " + charge[i]);
 
         charges.push(charge[i]);
-        console.log("charges = " + charges);
+        //console.log("charges = " + charges);
         
 
         num[i] = item.num;
-        console.log("num[" + i + "] = " + num[i]);
+        //console.log("num[" + i + "] = " + num[i]);
 
         nums.push(num[i]);
-        console.log("nums = " + nums);
+        //console.log("nums = " + nums);
 
       }).join("");
 
-      console.log("CHARGES = " + charges);
-      console.log(charges.length);
+      //console.log("CHARGES = " + charges);
+      //console.log(charges.length);
 
-      console.log("NUMS = " + nums);
-      console.log(nums.length);
+      //console.log("NUMS = " + nums);
+      //console.log(nums.length);
 
       for(var i=0; i<charges.length && i<nums.length; i++){
         wc2d[i] = [ charges[i], nums[i] ];
       }
 
-      console.log("wc2d = " + wc2d);
-      console.log(wc2d);
+      //console.log("wc2d = " + wc2d);
+      //console.log(wc2d);
 
-      console.log(wc2d[0]);
-      console.log(wc2d[0][0]);
-      console.log(wc2d[0][1]);
+      //console.log(wc2d[0]);
+      //console.log(wc2d[0][0]);
+      //console.log(wc2d[0][1]);
 
-      console.log(wc2d[1]);
-      console.log(wc2d[1][0]);
-      console.log(wc2d[1][1]);
+      //console.log(wc2d[1]);
+      //console.log(wc2d[1][0]);
+      //console.log(wc2d[1][1]);
 
     });
     console.log("END setWordCloud()");
-    console.log("wc2d vvvvvvv");
-    console.log(wc2d);
+    //console.log("wc2d vvvvvvv");
+    //console.log(wc2d);
     return wc2d;
   };
 
   self.getWordCloud = function(){
     console.log("Inside getWordCloud()");
-    console.log("wc2d = " + wc2d);
+    //console.log("wc2d = " + wc2d);
 
     console.log("END getWordCloud()");
     return wc2d;
@@ -267,7 +276,7 @@ $(document).ready(function() {
       if(doneLoading && !stop) {
 
         // rendering the bar and pie graph
-        d3arr = DelphiDemo.getQQ();
+        var d3arr = DelphiDemo.getQQ();
         for(var i = 0; i < 10; i++){
           freqData[i].charge = d3arr[i].charge.split(' ')[0];
           freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
@@ -279,6 +288,11 @@ $(document).ready(function() {
 
         wordCloudArray = DelphiDemo.getWordCloud();
         getCloud(wordCloudArray, 'bold italic', 'Amaranth', 'test', 'cloud');
+
+
+        //DelphiDemo.clearQQ();
+
+        // stops the interval from keep on running the extra functions
         stop = true;
       }
     }, 1000);

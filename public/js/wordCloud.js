@@ -24,9 +24,9 @@ function getFont(style, size, name) {
 
 // text - is the charge_description
 function measureText(text, font, size, context) {
-    console.log("Inside WC measureText()");
-    console.log("$$$$ text = " + text);
-    console.log("^^^^ size = " + size);
+    //console.log("Inside WC measureText()");
+    //console.log("$$$$ text = " + text);
+    //console.log("^^^^ size = " + size);
     context.font = font;
     var metrics = context.measureText(text);
     return {
@@ -81,7 +81,7 @@ function getCloud(data, style, name, testid, cloudid) {
         var font = getFont(style, size, name);
         var measure = measureText(text, font, size, contextTest);
 
-        console.log("SIZE = " + size);
+        //console.log("SIZE = " + size);
 
         while (col && (max-- > 0)) {
 
@@ -107,7 +107,7 @@ function getCloud(data, style, name, testid, cloudid) {
                 //size = Math.max(Math.round(size * 0.85), 10);
                 //size = Math.max( size );
 
-                console.log("NEW SIZE = " + size);
+                //console.log("NEW SIZE = " + size);
 
                 font = getFont(style, size, name);
 
@@ -132,8 +132,8 @@ $(document).ready(function() {
         wordCloudArray = DelphiDemo.getWordCloud();
 
 
-        console.log("wordCloudArray");
-        console.log(wordCloudArray);
+        //console.log("wordCloudArray");
+        //console.log(wordCloudArray);
 
 
         //console.log("DATA shit");
