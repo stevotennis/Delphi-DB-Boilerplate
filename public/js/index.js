@@ -14,6 +14,12 @@ var DelphiDemo = DelphiDemo || (function() {
   var num = [];
   var nums = [];
   
+  self.getButton = function(input){
+    self.getNewData(input.innerHTML);
+    self.setQ();
+    self.set2013();
+    self.setWordCloud();
+  }
 
   self.getZip = function() {
     console.log("3) IN GET_SEARCH_ZIP");
@@ -23,7 +29,7 @@ var DelphiDemo = DelphiDemo || (function() {
         console.log(item.community);
         //arr.push(item.charge_description);
 
-        return "<tr><td>" + item.community + "</td><td>" + item.zip + "</td></tr>";
+        return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
       }).join("");
       //console.log("rows " + rows);
       
