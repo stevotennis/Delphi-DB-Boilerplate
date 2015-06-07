@@ -36,6 +36,10 @@ app.get('/', function(req, res){
   res.render('index');
 });
 
+app.get('/map', function(req, res){
+  res.render('map', { user: req.user });
+});
+
 app.get('/about', function(req, res){
   res.render('about', { user: req.user });
 });
