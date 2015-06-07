@@ -62,7 +62,6 @@ var DelphiDemo = DelphiDemo || (function() {
 
         clearInterval(refreshID);
       }
-      console.log("Hello");
     }, 1000);  
   }
 
