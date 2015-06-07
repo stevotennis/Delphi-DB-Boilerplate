@@ -341,11 +341,11 @@ app.get('/wordCloud', function (req, res) {
         //console.log(query);
         // filter by zip code if available, otherwise return all data'
         if(req.query.zipcode && isNumber(req.query.zipcode)) {
-          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 10";
+          query += " WHERE zip='" + req.query.zipcode + "' group by charge_description order by count(*) desc limit 30";
           //query += " WHERE zip='" + req.query.zipcode + "'";
           //args.push(req.query.zipcode);
         }else if(req.query.zipcode){
-          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' group by charge_description order by count(*) desc limit 10";
+          query += " WHERE agency='" + req.query.zipcode.toUpperCase() + "' group by charge_description order by count(*) desc limit 30";
         }
         console.log(query);
         client.query(query, args, function(err, result) {
