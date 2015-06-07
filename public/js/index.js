@@ -33,10 +33,37 @@ var DelphiDemo = DelphiDemo || (function() {
   var nums = [];
   
   self.getButton = function(input){
-    self.getNewData(input.innerHTML);
+    doneLoading = self.getNewData(input.innerHTML);
     self.setQ();
     self.set2013();
     self.setWordCloud();
+    var refreshID = setInterval( function(){
+      if(doneLoading && !stop) {
+
+        // rendering the bar and pie graph
+        var d3arr = DelphiDemo.getQQ();
+        for(var i = 0; i < 10; i++){
+          freqData[i].charge = d3arr[i].charge.split(' ')[0];
+          freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
+          freqData[i].freq.year_2014 = d3arr[i].freq.yr2;
+          freqData[i].total = d3arr[i].total;
+          //console.log(freqData[i].total);
+        }
+        dashboard('#dashboard',freqData);
+
+        wordCloudArray = DelphiDemo.getWordCloud();
+        getCloud(wordCloudArray, 'bold italic', 'Amaranth', 'test', 'cloud');
+
+
+        //DelphiDemo.clearQQ();
+
+        // stops the interval from keep on running the extra functions
+        stop = true;
+
+        clearInterval(refreshID);
+      }
+      console.log("Hello");
+    }, 1000);  
   }
 
   self.getZip = function() {
@@ -141,9 +168,11 @@ var DelphiDemo = DelphiDemo || (function() {
     
     // Get new data
     var par = document.getElementById("delphi-table");
-    while(par.hasChildNodes()){
-      par.removeChild(par.firstChild);
-    }
+    var par1 = document.getElementById("dashboard");
+    var par2 = document.getElementById("WC");
+    while(par.hasChildNodes()) par.removeChild(par.firstChild);
+    while(par1.hasChildNodes()) par1.removeChild(par1.firstChild);
+    while(par2.hasChildNodes()) par2.removeChild(par2.firstChild);
 
     $.get("/delphidata", zip && {zipcode: zip}, function(data) {
       //if(!verifyData(data, zip)) return;
@@ -272,7 +301,7 @@ $(document).ready(function() {
     DelphiDemo.setQ();
     DelphiDemo.set2013();
     DelphiDemo.setWordCloud();
-    setInterval( function(){
+    var refreshID = setInterval( function(){
       if(doneLoading && !stop) {
 
         // rendering the bar and pie graph
@@ -294,7 +323,10 @@ $(document).ready(function() {
 
         // stops the interval from keep on running the extra functions
         stop = true;
+
+        clearInterval(refreshID);
       }
+      console.log("Hello");
     }, 1000);
     evt.preventDefault();
   });
