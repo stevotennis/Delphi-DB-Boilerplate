@@ -72,8 +72,9 @@ var DelphiDemo = DelphiDemo || (function() {
       var rows = $.map(data, function (item, i) {
         //console.log(item.community);
         //arr.push(item.charge_description);
-
-        return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
+        if(item.zip.length > 0 && item.community.length > 0)
+          return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
+        else return;
       }).join("");
       //console.log("rows " + rows);
       
