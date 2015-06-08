@@ -49,6 +49,16 @@ var DelphiDemo = DelphiDemo || (function() {
           freqData[i].total = d3arr[i].total;
           //console.log(freqData[i].total);
         }
+        for(var j = 0; j < 10; j++){
+          var count = 1;
+          var tmp = freqData[j].charge;
+          for(var k = j; k < 10; k++){
+            if(tmp == freqData[k].charge && j != k){
+              if(count == 1) freqData[j].charge = freqData[j].charge + count++;
+              freqData[k].charge = freqData[k].charge + count++;
+            }
+          }
+        }
         dashboard('#dashboard',freqData);
 
         wordCloudArray = DelphiDemo.getWordCloud();
@@ -73,7 +83,7 @@ var DelphiDemo = DelphiDemo || (function() {
         //console.log(item.community);
         //arr.push(item.charge_description);
         if(item.community.length > 0 && item.zip.length > 0)
-          return "<tr><td>" + item.community + '</td><td id="clickzip"><a href="#wordCloud"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></a></td></tr>";
+          return "<tr><td>" + item.community + '</td><td id="clickzip"><a href="#wordCloud" id="testa"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></a></td></tr>";
         else return;
       }).join("");
       //console.log("rows " + rows);
