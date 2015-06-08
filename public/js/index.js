@@ -337,12 +337,11 @@ $(document).ready(function() {
         }
         for(var j = 0; j < 10; j++){
           var count = 1;
+          var tmp = freqData[j].charge;
           for(var k = j; k < 10; k++){
-            if(freqData[j].charge == freqData[k].charge && j != k){
-              freqData[j].charge = freqData[j].charge + count;
-              count++;
-              freqData[k].charge = freqData[k].charge + count;
-              count++;
+            if(tmp == freqData[k].charge && j != k){
+              if(count == 1) freqData[j].charge = freqData[j].charge + count++;
+              freqData[k].charge = freqData[k].charge + count++;
             }
           }
         }
