@@ -316,13 +316,13 @@ $(document).ready(function() {
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
-    var tmp = document.getElementById("zipinput");
-    tmp.innerHTML = "Enter Zip Code";
     console.log(value);
     doneLoading = DelphiDemo.getNewData(value);
     DelphiDemo.setQ();
     DelphiDemo.set2013();
     DelphiDemo.setWordCloud();
+    location.href='#wordCloud';
+    document.getElementById('zipinput').value='';
     var refreshID = setInterval( function(){
       if(doneLoading && !stop) {
         
