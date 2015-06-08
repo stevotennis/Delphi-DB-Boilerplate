@@ -162,7 +162,7 @@ var DelphiDemo = DelphiDemo || (function() {
     console.log("Getting data");
     delphiZip = zip;
     stop = false;
-    self.printQQ();
+    //self.printQQ();
     self.clearQQ();
     
     // Get new data
@@ -230,8 +230,18 @@ var DelphiDemo = DelphiDemo || (function() {
     while(distQ.length > 0) distQ.pop();
   }
 
+  self.clearWC = function(){
+
+  }
+
   self.setWordCloud = function(){
     console.log("Inside setWordCloud()");
+    // wc2d = [];
+    // charge = []
+    // charges = [];
+    // num = [];
+    // nums = [];
+
     $.get("/wordCloud", delphiZip && {zipcode: delphiZip}, function(data) {
       console.log("+++++++ delphiZip: " + delphiZip);
       var rows = $.map(data, function (item, i) {
@@ -315,6 +325,7 @@ $(document).ready(function() {
     DelphiDemo.setWordCloud();
     var refreshID = setInterval( function(){
       if(doneLoading && !stop) {
+        
 
         // rendering the bar and pie graph
         var d3arr = DelphiDemo.getQQ();
@@ -323,8 +334,19 @@ $(document).ready(function() {
           freqData[i].freq.year_2013 = d3arr[i].freq.yr1;
           freqData[i].freq.year_2014 = d3arr[i].freq.yr2;
           freqData[i].total = d3arr[i].total;
-          //console.log(freqData[i].total);
         }
+        for(var j = 0; j < 10; j++){
+          var count = 1;
+          for(var k = j; k < 10; k++){
+            if(freqData[j].charge == freqData[k].charge && j != k){
+              freqData[j].charge = freqData[j].charge + count;
+              count++;
+              freqData[k].charge = freqData[k].charge + count;
+              count++;
+            }
+          }
+        }
+        DelphiDemo.printQQ();
         dashboard('#dashboard',freqData);
 
         wordCloudArray = DelphiDemo.getWordCloud();
