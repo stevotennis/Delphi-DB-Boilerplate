@@ -59,7 +59,7 @@ app.get('/zip', function (req, res) {
   pg.connect(conString, function(err, client, done) {
     if(err) return console.log(err);
     //var zcode = document.getElementById('zip');
-    var query = "select distinct community, zip from arjis_crimes";
+    var query = "select distinct community, zip from arjis_crimes order by community asc";
     client.query(query, function(err, result) {
       // return the client to the connection pool for other requests to reuse
       done();

@@ -72,8 +72,9 @@ var DelphiDemo = DelphiDemo || (function() {
       var rows = $.map(data, function (item, i) {
         //console.log(item.community);
         //arr.push(item.charge_description);
-
-        return "<tr><td>" + item.community + '</td><td id="clickzip"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></td></tr>";
+        if(item.community.length > 0 && item.zip.length > 0)
+          return "<tr><td>" + item.community + '</td><td id="clickzip"><a href="#wordCloud"><button onclick="DelphiDemo.getButton(this)">' + item.zip + "</button></a></td></tr>";
+        else return;
       }).join("");
       //console.log("rows " + rows);
       
@@ -161,9 +162,8 @@ var DelphiDemo = DelphiDemo || (function() {
     console.log("Getting data");
     delphiZip = zip;
     stop = false;
-    self.clearQQ();
-
     self.printQQ();
+    self.clearQQ();
     
     // Get new data
     var par = document.getElementById("delphi-table");
@@ -290,11 +290,14 @@ var DelphiDemo = DelphiDemo || (function() {
 $(document).ready(function() {
   console.log("1) BOOMBABY!!!!!!!!!!!!!!!!!!");
   DelphiDemo.init();
-  console.log("5) AFTER INIT in document.ready()");
+  console.log("5) AFTER INIT in document.ready()");  
+
 
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
     var value = $(evt.target).find('.target').val();
+    var tmp = document.getElementById("zipinput");
+    tmp.innerHTML = "Enter Zip Code";
     console.log(value);
     doneLoading = DelphiDemo.getNewData(value);
     DelphiDemo.setQ();
@@ -325,8 +328,8 @@ $(document).ready(function() {
 
         clearInterval(refreshID);
       }
-      console.log("Hello");
     }, 1000);
+    console.log(freqData);
     evt.preventDefault();
   });
 });
