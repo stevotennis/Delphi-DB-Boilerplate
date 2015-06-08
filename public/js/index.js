@@ -173,6 +173,9 @@ var DelphiDemo = DelphiDemo || (function() {
     while(par1.hasChildNodes()) par1.removeChild(par1.firstChild);
     while(par2.hasChildNodes()) par2.removeChild(par2.firstChild);
 
+    var spinner = document.getElementById("parent");
+    spinner.innerHTML = spinner.innerHTML + '<div id="prog" class="spinner"><div class="dot1"></div><div class="dot2"></div></div>';
+
     $.get("/delphidata", zip && {zipcode: zip}, function(data) {
       //if(!verifyData(data, zip)) return;
       //console.log("## In getNewData: " + data);
@@ -194,6 +197,7 @@ var DelphiDemo = DelphiDemo || (function() {
         return "<tr><td>" + item.agency + "</td><td>" + item.charge_description + "</td><td>" + item.activity_date + "</td><td>" + item.block_address + "</td><td>" + item.zip + "</td><td>" + item.community + "</td></tr>";
       }).join("");
       $("#delphi-table").append(rows);
+      while(spinner.hasChildNodes) spinner.removeChild(spinner.firstChild);
       }
     );
     return true;
@@ -292,6 +296,12 @@ $(document).ready(function() {
   DelphiDemo.init();
   console.log("5) AFTER INIT in document.ready()");  
 
+  $('a').click(function(){
+    $('html, body').animate({
+        scrollTop: $( $.attr(this, 'href') ).offset().top
+    }, 500);
+    return false;
+});
 
   // Event handler for zip code input box
   $('#custom-zip').submit(function(evt) {
